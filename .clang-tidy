@@ -1,0 +1,25 @@
+---
+Checks:          '*,
+                abseil-*,
+                -altera*,
+                boost-*,
+                bugprone-*,
+                clang-analyzer-*,
+                concurrency-*,
+                cppcoreguidelines-*,
+                -fuchsia*,
+                -google*,
+                -llvm*,
+                -llvmlibc*,
+                modernize-*,
+                    -modernize-use-trailing-return-type,
+                    -modernize-pass-by-value,
+                mpi-*,
+                openmp-*,
+                performance-*,
+                portability-*,
+                readability-*,
+                    -readability-else-after-return'
+WarningsAsErrors: '*'
+HeaderFilterRegex: ''
+FormatStyle:     none 

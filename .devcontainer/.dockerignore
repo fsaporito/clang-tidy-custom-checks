@@ -1,0 +1,16 @@
+# Build Dirs
+build
+out
+bin
+
+# VS Code
+.vs/
+.idea/
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Logs
+*.log 

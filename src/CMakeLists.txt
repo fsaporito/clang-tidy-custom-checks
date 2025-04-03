@@ -1,20 +1,31 @@
-option(USE_FACTORIAL "Enable compilation of FACTORIAL" ON)
-option(USE_PRIME "Enable compilation of PRIME" ON)
+# Add IllegalVariableNamesCheck
+message("Adding Custom Check: IllegalVariableNames")
+add_subdirectory(IllegalVariableNames)
 
-# lib1
-if(USE_FACTORIAL)
-    message("Using FACT")
-    add_subdirectory(factorial)
+# Define Library Name
+set(libraryName "CustomClangTidyChecks")
+set(libraryName "CustomClangTidyChecks" PARENT_SCOPE)
+
+# Define Library Target
+add_library(${libraryName} STATIC CustomClangTidyChecks.cpp)
+
+# Specify Target Extension
+if(WIN32
+    OR MSVC
+    OR MSYS
+    OR MINGW) # Windows: lib extension
+    set_target_properties(${libraryName} PROPERTIES SUFFIX ".lib")
+elseif(UNIX AND NOT(APPLE)) # Linux: so extension
+    set_target_properties(${libraryName} PROPERTIES SUFFIX ".so")
 endif()
 
-# lib2
-if(USE_PRIME)
-    message("Using PRIME")
-    add_subdirectory(prime)
-endif()
+message(STATUS " - Target ${libraryName} created successfully")
 
-find_package(spdlog)
+target_include_directories(${libraryName} PRIVATE ${CLANG_INCLUDE_DIRS})
+target_include_directories(${libraryName} PRIVATE "/usr/include/clang-tidy")
 
-# Generic test that uses conan libs
-add_executable(intro main.cpp)
-target_link_libraries(intro PUBLIC ProjectConfiguration fact prime CLI11::CLI11 spdlog::spdlog)
+# Link all the custom checks
+target_link_libraries(${libraryName} PUBLIC IllegalVariableNames ProjectConfiguration
+    clangTooling
+    clangBasic
+    clangASTMatchers)
